@@ -103,8 +103,8 @@ $num_ph2 = mysqli_num_rows($result_ph2);
 				//}elseif($num_ph > 0){
 //message("Another Candidate Has initiated payment with This Email '$semail' Before.", "error");
 		        //redirect('apply_b.php?view=p_sh&main='.$getmain);
-				}elseif($num_ph2 > 0){ message("Another Candidate Has initiated payment with This Phone Number '$phone1' Before.", "error");
-		        redirect('apply_b.php?view=p_sh&main='.$getmain);
+				//}elseif($num_ph2 > 0){ message("Another Candidate Has initiated payment with This Phone Number '$phone1' Before.", "error");
+		        //redirect('apply_b.php?view=p_sh&main='.$getmain);
 		       // Candidate with Name: Nweke Ebuka; ,Phone Number: 07083853189 Email Address: ifennalue2018@gmail.com already exist
 			  }else{
 	$s=14;
@@ -138,7 +138,7 @@ $sqlporder =	mysqli_query($condb,"INSERT INTO fshop_tb (ftrans_id, fsname, fonam
         <div id="breadcrumbs-share">
             <section id="breadcrumbs">
                 <ul class="breadcrumb">
-                                <li><a href="<?php echo host(); ?>">Home</a> </li>
+                                <li><a href="<?php  host(); ?>">Home</a> </li>
 
 
                     
@@ -157,7 +157,7 @@ $sqlporder =	mysqli_query($condb,"INSERT INTO fshop_tb (ftrans_id, fsname, fonam
         <div class="col-xs-12 col-md-9 link-icons">
             <div class="row">
                 <div class="col-xs-12">
-           <h3>Student Online Application Panel: <?php echo getprog($prog_no)." (".getamoe($gmode).") ".$prog_sec; ?> </h3>
+            <h3>Student Online Application Panel: <?php echo getprog($prog_no)." (".getamoe($gmode).") ".$prog_sec; ?> </h3>
          <h5 style="color:red;">Application Closes On <?php echo $datetime."."; ?> </h5>
         </div>
         <div class="col-xs-12 primary-content link-icons">
