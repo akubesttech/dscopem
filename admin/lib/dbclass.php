@@ -1,9 +1,9 @@
 <?php
 define('DB_DRIVER', 'mysql');
-define('SERVER', '216.198.69.150');
-define('USERNAME', 'mosogsmart');
+define('SERVER', 'localhost');
+define('USERNAME', 'deltasma_mosogsmart');
 define('PASSWORD', 'mosogsmart_2019k#');
-define('DATABASE', 'mosogsmartdb');
+define('DATABASE', 'deltasma_mosogsmartdb');
 //define('t_gate', 'sk_test_5a19822c308f7d12f9f64f19cecac63796ec6816');
 define('t_gate', 'sk_test_9266afc7221b94d6180f205c78391f9c66c48084');
 
