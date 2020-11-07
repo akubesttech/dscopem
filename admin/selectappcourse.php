@@ -27,18 +27,15 @@ $semester = $_POST['semester'];
 $cosids = $_POST['cos'];
 $salot_los = $_POST['los'];
 $salot_session = $_POST['session']; $salot_fac = $_POST['fac1'];
-
-
-$result_alldept=mysqli_query($condb,"SELECT * FROM coursereg_tb WHERE dept ='".safee($condb,$salot_dept)."' and session ='".safee($condb,$salot_session)."' and  c_code ='".safee($condb,$cosids)."' ");
+//$result_alldept=mysqli_query($condb,"SELECT * FROM coursereg_tb WHERE dept ='".safee($condb,$salot_dept)."' and session ='".safee($condb,$salot_session)."' and  c_code ='".safee($condb,$cosids)."' ");
+$result_alldept=mysqli_query($condb,"SELECT * FROM coursereg_tb WHERE dept ='".safee($condb,$salot_dept)."' and session ='".safee($condb,$salot_session)."' and  level ='".safee($condb,$salot_los)."' ");
 $num_alldept = mysqli_num_rows($result_alldept);
 if($num_alldept < 1){
 message("ERROR: No Course Registration Found for ".getdeptc($salot_dept)." ".$SGdept1." for ".$salot_session." , Please Try Again .", "error");
  redirect('Result_am.php?view=apcs');
-}else{ //$_SESSION['bfac']=$salot_fac;
-redirect('Result_am.php?view=caprove&Schd='.($salot_dept).'&sec='.($salot_session).'&scos='.($cosids));
-}
-
-}//}$_SESSION['insidtime'] = rand();
+}else{ //redirect('Result_am.php?view=caprove&Schd='.($salot_dept).'&sec='.($salot_session).'&scos='.($cosids)); 
+redirect('Result_am.php?view=caprove&Schd='.($salot_dept).'&sec='.($salot_session).'&slos='.($salot_los)); 
+}}
 ?>
 
 <div class="x_panel">
@@ -49,7 +46,7 @@ redirect('Result_am.php?view=caprove&Schd='.($salot_dept).'&sec='.($salot_sessio
                     		<form name="user" method="post" enctype="multipart/form-data" id="user">
 <input type="hidden" name="insidtime" value="<?php echo $_SESSION['insidtime'];?> " />
                       
-                      <span class="section">Select Course(s) to Approve  </span>
+                      <span class="section">Select Course Registration Record to Approve  </span>
 
                       	    <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback" >
 					    <label for="heard"><?php echo $SCategory; ?> </label>
@@ -62,26 +59,22 @@ while($rsblocks = mysqli_fetch_array($resultblocks))
 ?></select></div>
                      
 <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-<label for="heard"><?php echo $SGdept1; ?></label><select name='dept1' id="dept1" onchange='loadCourse(this.name);return false;' class="form-control"  >
+<label for="heard"><?php echo $SGdept1; ?></label>
+<select name='dept1' id="dept1" onchange='loadCourse2(this.name);return false;' class="form-control"  >
                            <option value=''>Select <?php echo $SGdept1; ?></option></select></div>
- 
-                      <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback"><label for="heard">Course Code</label>
+ <!--  <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback"><label for="heard">Course Code</label>
                             	  <select name='cos' id="cosload" class="form-control" required="required" >
-                           <option value=''>Select Courses</option>
-                          </select>
-                      </div>
+                           <option value=''>Select Courses</option></select></div> --!>
   <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback"><label for="heard">Academic Session</label>
 <select class="form-control"   name="session" id="session"  required="required"><option value="">Select Session</option>
-<?php  $resultsec = mysqli_query($condb,"SELECT * FROM session_tb  ORDER BY session_name ASC");while($rssec = mysqli_fetch_array($resultsec))
-{echo "<option value='$rssec[session_name]'>$rssec[session_name]</option>";	}
-?></select></div>
+<?php echo fill_sec(); ?></select></div>
 
-             <!--    <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+              <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
 	<label for="heard">Level </label><select class="form-control" name="los" id="los"  >
 <option value="">Select Level</option><?php 
-$resultsec2 = mysqli_query($condb,"SELECT * FROM level_db where prog = '$class_ID'  ORDER BY level_order ASC");
+$resultsec2 = mysqli_query($condb,"SELECT * FROM level_db where prog = '".safee($condb,$class_ID)."'  ORDER BY level_order ASC");
 while($rssec2 = mysqli_fetch_array($resultsec2)){echo "<option value='$rssec2[level_order]'>$rssec2[level_name]</option>";	
-}?></select> </div>
+}?></select> </div><!--
 <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
 					  <label for="heard">Semester </label><select name='semester' id="semester" class="form-control" >
 <option value="">Select Semester</option><option value="First">First</option><option value="Second">Second</option></select> </div> --!>

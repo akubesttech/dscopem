@@ -6,7 +6,9 @@ define('PASSWORD', 'mosogsmart_2019k#');
 define('DATABASE', 'deltasma_mosogsmartdb');
 //define('t_gate', 'sk_test_5a19822c308f7d12f9f64f19cecac63796ec6816');
 define('t_gate', 'sk_test_9266afc7221b94d6180f205c78391f9c66c48084');
-
+//other creaditials 
+define('t_ACCTS', ''); //for school
+define('t_ACCTB', ''); // for Bisapp
 class Database
 {
 

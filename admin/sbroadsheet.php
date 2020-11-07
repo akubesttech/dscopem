@@ -51,9 +51,9 @@ message("ERROR: No Result Broad Sheet Found for ".getdeptc($salot_dept)." Depart
 	// COLLEGE OF EDUCATION
 //echo "<script>window.location.assign('resultsheet.php?Schd=".($salot_dept)."&sec=".($salot_session)."&lev=".($salot_los)."&sem=".($semester)."');</script>";
 // POLY
-//echo "<script>window.location.assign('resultsheet_p.php?Schd=".($salot_dept)."&sec=".($salot_session)."&lev=".($salot_los)."&sem=".($semester)."');</script>";
+echo "<script>window.location.assign('resultsheet_p.php?Schd=".($salot_dept)."&sec=".($salot_session)."&lev=".($salot_los)."&sem=".($semester)."');</script>";
 // COLLEGE OF EDUCATION mosogar
-echo "<script>window.location.assign('resultsheet_c.php?Schd=".($salot_dept)."&sec=".($salot_session)."&lev=".($salot_los)."&sem=".($semester)."&rform=".($rforms)."');</script>";
+//echo "<script>window.location.assign('resultsheet_c.php?Schd=".($salot_dept)."&sec=".($salot_session)."&lev=".($salot_los)."&sem=".($semester)."&rform=".($rforms)."');</script>";
 }
 
 }//}$_SESSION['insidtime'] = rand();
@@ -91,9 +91,7 @@ while($rsblocks = mysqli_fetch_array($resultblocks))
                       
   <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback"><label for="heard">Academic Session</label>
 <select class="form-control"   name="session" id="session"  required="required"><option value="">Select Session</option>
-<?php  $resultsec = mysqli_query($condb,"SELECT * FROM session_tb  ORDER BY session_name ASC");while($rssec = mysqli_fetch_array($resultsec))
-{echo "<option value='$rssec[session_name]'>$rssec[session_name]</option>";	}
-?></select></div>
+<?php echo fill_sec(); ?></select></div>
  <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" >
 	<label for="heard">Result Form </label><select class="form-control" name="rtemp" id="rtemp" required >
 <option value="">Select Form</option><option value="1">Form A</option><option value="2">Form B</option>
