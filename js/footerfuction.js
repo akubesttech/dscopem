@@ -775,3 +775,33 @@ function check(e, value) {
 	}
 	request.send();
 }
+
+ function getname2(val) {
+            $.ajax({
+                url: 'gettrans.php',
+                type: 'POST',
+                data: 'matno='+val,
+                dataType: 'json',
+                success:function(data){
+                    var len = data.length;
+                    if(len > 0){
+                        var id = data[0]['RegNo'];
+                          var fullname = data[0]['fullname'];
+                        var name = data[0]['facn'];
+                        var gdept = data[0]['dept'];
+                        var yoe = data[0]['yoe'];
+                        var acad = data[0]['acad'];
+                        document.getElementById('fullname').value = fullname;
+                        document.getElementById('facn').value = name;
+                        document.getElementById('dept').value = gdept;
+                        document.getElementById('yoe').value = yoe;
+                        document.getElementById('acad').value = acad;     
+                    }else{document.getElementById('fullname').value = "";
+                        document.getElementById('facn').value = "";
+                     document.getElementById('dept').value = "";
+                        document.getElementById('yoe').value = "";
+                        document.getElementById('acad').value = "";
+                    }     //alert(name);
+                } 
+            });
+        }
