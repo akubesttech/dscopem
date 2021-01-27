@@ -20,13 +20,14 @@ message("ERROR:  No Programme Select,Please Select a Programme and continue.", "
 //ini_set('display_errors', 1);
 //if($_SESSION['insid']==$_POST['insid'])
 //{
+    $crsl = isset($_POST['chkresult']) ? $_POST['chkresult'] : '';
     $sql_gradesetl = mysqli_query($condb,"select * from grade_tb where prog ='".safee($condb,$class_ID)."' and grade_group ='01' Order by b_max ASC limit 1 ")or die(mysqli_error($condb)); 
     $getmg2 = mysqli_fetch_array($sql_gradesetl);    $getpassl = $getmg2['b_max'];
 if(isset($_POST['printtrans'])){
  $Session_checker = $_POST["yoe"];
 $department = $_POST["dept"];
 $matno = $_POST["matno"];$programType = $class_ID; $currenty = date("Y");
-	//$_SESSION['temppin']=$Pin;
+$cresult = $crsl;
 $result_pinr=mysqli_query($condb,"SELECT * FROM student_tb WHERE yoe ='".safee($condb,$Session_checker)."' AND RegNo ='".safee($condb,$matno)."' AND Department ='".safee($condb,$department)."' AND app_type='".safee($condb,$class_ID)."'");
 $num_pinr = mysqli_num_rows($result_pinr);
 $num_serialr = mysqli_fetch_array($result_pinr);
@@ -61,12 +62,10 @@ $session_check = mysqli_num_rows($sql_session_check);
 		      // redirect('Student_Record.php?view=s_tra');
        // $res="<font color='Red'><strong>Transcript Not Available For $matno, Please Confirm Student Year Of Graguation.</strong></font><br>"; $resi=1;
 }else{
-			//	header("location:apply_b.php?view=N_1");
-				//echo "<script>alert('Your Application was Sucessfully Submited!');</script>";
-	echo "<script>window.location.assign('Transcript.php?transid=".($matno)."&sec=".($Session_checker)."&depo=".($department)."');</script>";
-	//echo "<script>window.location.assign('Transcript.php?transid=".$matno."');</script>";
-		//$_SESSION['deptrans']=$department; $_SESSION['esession']=$Session_checker;$_SESSION['progty']=$programType;
-			}
+if(empty($cresult)){ redirect('Transcript.php?transid='.($matno)."&sec=".($Session_checker)."&depo=".($department));
+	//echo "<script>window.location.assign('Transcript.php?transid=".($matno)."&sec=".($Session_checker)."&depo=".($department)."');</script>";
+    }else{ redirect('Finalresult.php?transid='.($matno)."&sec=".($Session_checker)."&depo=".($department));
+    }}
 
 }//}$_SESSION['insid'] = rand();
 ?>
@@ -83,21 +82,25 @@ $session_check = mysqli_num_rows($sql_session_check);
     <input type="hidden" name="yoe" id="yoe" tabindex="4" />
     
    
-<span class="section">Generate  Student Transcript</span>
+<span class="section">Generate  Student Transcript / Final Result</span>
 <div class="alert alert-info alert-dismissible fade in" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">x</span>
                     </button>
-          Note: That this will enable Admin to Generate Student Transcript. 
+          Note: That this will enable Admin to Generate Student Transcript / Final Result. 
                   </div>
    <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
 					  <label for="heard" id="c_title">Mat No./Reg No:</label>
 <input type="text" class="form-control " name="matno" id="matno"  value=""  onkeyup="getname2(this.value);" onblur="getname2(this.value);" tabindex="1"  required="required"> </div>
     <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
 					  <label for="heard" id="c_title">Student Full Name:</label>
-                     <input type="text" class="form-control " name="fullname" id="fullname"  value=""   tabindex="6" readonly  > </div>
+                     <input type="text" class="form-control " name='fullname' id="fullname"  value=""   tabindex="6" readonly  > </div>
                             <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
 					  <label for="heard" id="c_title">Academic Status:</label>
-                     <input type="text" class="form-control " name="acad" id="acad"  value=""   tabindex="5" readonly > </div>
+                     <input type="text" class="form-control " name='acad' id="acad"  value=""   tabindex="5" readonly > </div>
+                      <?php   if (authorize($_SESSION["access3"]["stMan"]["trans"]["view"])){ ?>   <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
+		<label for="chkPenalty"> </label><div class="form-group"><br>
+    <label class="chkPenalty"><input type="checkbox" id="chkresult"   name="chkresult" value="1" /> Show Final Result </label></div></div> <?php } ?>
+    
                                                
 					    <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" style="display: none;" > 
 <label for="heard"><?php echo $SCategory; ?> </label>
