@@ -26,10 +26,16 @@ $ndgroup = getdpgroup($dept);
 $query3 = mysqli_query($condb,"select * from schoolsetuptd ")or die(mysqli_error($condb));$rowdd = mysqli_fetch_array($query3);
 $title20 = $rowdd['SchoolName'];$motto = $rowdd['Motto'];$logoback = $rowdd['Logo'];$exists = imgExists($logoback);
 $saddress = $rowdd['Address']; $state = $rowdd['State'];$city = $rowdd['City'];
-$queryresultapp = mysqli_query($condb,"select * from resultapproval_tb WHERE prog = '".safee($condb,$class_ID)."' AND dept = '".safee($condb,$dept)."' AND session = '".safee($condb,$sess)."' AND level = '".safee($condb,$lev)."' AND apstatus = '1' ")or die(mysqli_error($condb));
+$queryrapp = "select * from resultapproval_tb WHERE prog = '".safee($condb,$class_ID)."' AND dept = '".safee($condb,$dept)."' AND session = '".safee($condb,$sess)."' AND level = '".safee($condb,$lev)."' AND apstatus = '1' ";
+if($sems != null){ $queryrapp .= " AND semester='$sems'";}
+$queryresultapp = mysqli_query($condb,$queryrapp)or die(mysqli_error($condb));
 $rowapp = mysqli_fetch_array($queryresultapp); $aptatus = mysqli_num_rows($queryresultapp); 
- if($aptatus > 0){ $course_approve = 1; $bst = "Approved"; $pbcstatus= "Result Successfully Published for Students to access"; }else{ $course_approve = 0; $bst = "";$pbcstatus="";} 
-					
+ if($aptatus > 0){ $course_approve = 1; $bst = "Approved"; $pbcstatus= "Result Successfully Published for Students to access"; }else{ $course_approve = 0; $bst = "";$pbcstatus="Result Has not been Published for Student to access";} 
+$instidr = getinstitution($class_ID);
+$institu_nr = getincate($instidr);
+if($instidr == "1"){$mastersname = "Vice Chancelor"; 
+}elseif($instidr == "2"){$mastersname = "RECTOR'S"; 
+}else{$mastersname = "Provost";} 					
  ?>
 <!DOCTYPE html>
 <html>
@@ -373,10 +379,13 @@ $st_all = $con->getData($all_courses);
 //$tpearn = gettotalcredit($dept,$student['student_id'],1,"");
 $tcreg = gettotalcredit($dept,$student['student_id'],0,"");
                             //echo $scr." ".fetchGrade($scr,$class_ID);
+                           $ns = getscorest($student['student_id'],$dept,$ccoden,$scr);
+                           $gvalue = fetchGrade($scr,$class_ID)." (".$qp.")";
+                           $nvalue = getscorest($student['student_id'],$dept,$ccoden,$gvalue);
                           if($sformn == 1 ){ ?>
-                            <td colspan="1"><?php echo $scr ;?></td> <td colspan="1"><?php echo fetchGrade($scr,$class_ID)." (".$qp.")" ;?></td>
+                            <td colspan="1"><?php echo $ns ;?></td> <td colspan="1"><?php echo $nvalue ;?></td>
                             <?php }elseif($sformn == 2){?>
-                                <td colspan="1"><?php echo $scr ;?></td> <td colspan="1"><?php echo fetchGrade($scr,$class_ID)." (".$qp.")" ;?></td>
+                                <td colspan="1"><?php echo $ns ;?></td> <td colspan="1"><?php echo $nvalue ;?></td>
                                <?php }elseif($sformn == 3){  ?>
                         <?php }elseif($sformn == 4){}elseif($sformn == 5){?>
                               <td colspan="1"><?php echo subggp($dept,$student['student_id'],$ccoden)  ;?></td>
@@ -482,7 +491,7 @@ echo $gstart."  -  ".$gend." "."  -  ".strtoupper($remark)."<br>";
   height:17.85pt'>
   <p class=MsoNormal align=center  style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
   normal'><span style='font-size:12.0pt;mso-bidi-font-size:11.0pt;font-family:
-  "Times New Roman","serif"'><!--PROVOST SIGNATURE--!><o:p></o:p></span></p>
+  "Times New Roman","serif"'><!--<?php echo strtoupper($mastersname." SIGNATURE"); ?> --!><o:p></o:p></span></p>
   </td>
   <td width=376 valign=top style='width:281.85pt;padding:0in 5.4pt 0in 5.4pt;
   height:17.85pt'>
